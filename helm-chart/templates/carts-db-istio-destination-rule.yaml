@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: carts-db-sockshop-staging-destination
+spec:
+  host: carts-db.sockshop-staging.svc.cluster.local
+  subsets:
+  - name: blue
+    labels:
+      deployment: carts-db-blue
+  - name: green
+    labels:
+      deployment: carts-db-green
