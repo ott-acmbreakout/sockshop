@@ -69,3 +69,25 @@ cartsDb:
         externalPort: 27017
         internalPort: 27017
         name: carts-db
+cartsDbBlue:
+    container:
+        name: carts-db
+    image:
+        pullPolicy: IfNotPresent
+        repository: mongo
+    replicaCount: 1
+    service:
+        externalPort: 27017
+        internalPort: 27017
+        name: carts-db-blue
+cartsDbGreen:
+    container:
+        name: carts-db
+    image:
+        pullPolicy: IfNotPresent
+        repository: mongo
+    replicaCount: 1
+    service:
+        externalPort: 27017
+        internalPort: 27017
+        name: carts-db-green
