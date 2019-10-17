@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: carts-db-green-mongodata
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: carts-db-green
+  labels:
+    app: {{ .Chart.Name }}-selector-carts-db
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.cartsDbGreen.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-selector-carts-db
+        deployment: carts-db-green
+    spec:
+      containers:
+      - name: {{ .Values.cartsDbGreen.container.name }} 
+        image: {{ .Values.cartsDbGreen.image.repository }}
+        imagePullPolicy: {{ .Values.cartsDbGreen.image.pullPolicy }}
+        ports:
+        - containerPort: 27017
+        resources: {}
+        volumeMounts:
+        - mountPath: /data/db
+          name: carts-db-green-mongodata
+      restartPolicy: Always
+      volumes:
+      - name: carts-db-green-mongodata
+        persistentVolumeClaim:
+          claimName: carts-db-green-mongodata
