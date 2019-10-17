@@ -4,7 +4,7 @@ carts:
     image:
         pullPolicy: IfNotPresent
         repository: docker.io/keptnexamples/carts
-        tag: 0.8.1
+        tag: 0.8.2
     replicaCount: 1
     resources:
         limits:
