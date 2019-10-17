@@ -14,9 +14,9 @@ spec:
                     destination:
                         host: carts.sockshop-staging.svc.cluster.local
                         subset: blue
-                    weight: 100
+                    weight: 0
                 -
                     destination:
                         host: carts.sockshop-staging.svc.cluster.local
                         subset: green
-                    weight: 0
+                    weight: 100
