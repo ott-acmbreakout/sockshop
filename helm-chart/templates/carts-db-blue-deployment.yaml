@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: carts-db-blue-mongodata
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: carts-db-blue
+  labels:
+    app: {{ .Chart.Name }}-selector-carts-db
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.cartsDbBlue.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-selector-carts-db
+        deployment: carts-db-blue
+    spec:
+      containers:
+      - name: {{ .Values.cartsDbBlue.container.name }} 
+        image: {{ .Values.cartsDbBlue.image.repository }}
+        imagePullPolicy: {{ .Values.cartsDbBlue.image.pullPolicy }}
+        ports:
+        - containerPort: 27017
+        resources: {}
+        volumeMounts:
+        - mountPath: /data/db
+          name: carts-db-blue-mongodata
+      restartPolicy: Always
+      volumes:
+      - name: carts-db-blue-mongodata
+        persistentVolumeClaim:
+          claimName: carts-db-blue-mongodata
