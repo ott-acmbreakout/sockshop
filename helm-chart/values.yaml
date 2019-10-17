@@ -23,8 +23,8 @@ cartsBlue:
         name: carts
     image:
         pullPolicy: IfNotPresent
-        repository: null
-        tag: null
+        repository: docker.io/keptnexamples/carts
+        tag: 0.8.2
     replicaCount: 1
     resources:
         limits:
@@ -43,8 +43,8 @@ cartsGreen:
         name: carts
     image:
         pullPolicy: IfNotPresent
-        repository: null
-        tag: null
+        repository: docker.io/keptnexamples/carts
+        tag: 0.8.2
     replicaCount: 1
     resources:
         limits:
